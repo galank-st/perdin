@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index(){
-        $data['title'] = "Dashboard";
-        $data['sub_title'] = "Dashboard";
+        $data['judul'] = "Dashboard";
+        $data['sub_judul'] = "Dashboard";
         return view('dashboard', $data);
     }
 }

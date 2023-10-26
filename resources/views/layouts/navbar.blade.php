@@ -1,300 +1,80 @@
-<!--begin::Header wrapper-->
-<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
-    <!--begin::Menu wrapper-->
-    <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
-        <!--begin::Menu-->
-        <div class="menu menu-rounded menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
-            <!--begin:Menu item-->
-            <div data-kt-menu-placement="bottom-start" class="menu-item {{ set_here('dashboard') }} me-0 me-lg-2">
-                <!--begin:Menu link-->
-                <span class="menu-link">
-                    <a href="{{ route('dashboard') }}" class="menu-title">Dashboards</a>
+<div id="kt_header" style="" class="header align-items-stretch">
+    <!--begin::Brand-->
+    <div class="header-brand">
+        <!--begin::Logo-->
+        <a href="{{url('/')}}">
+            <img alt="Logo" src="assets/media/logos/logo.png" class="h-25px h-lg-25px" />
+        </a>
+        <!--end::Logo-->
+        <!--begin::Aside minimize-->
+        <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-minimize" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="aside-minimize">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr092.svg-->
+            <span class="svg-icon svg-icon-1 me-n1 minimize-default">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect opacity="0.3" x="8.5" y="11" width="12" height="2" rx="1" fill="black" />
+                    <path d="M10.3687 11.6927L12.1244 10.2297C12.5946 9.83785 12.6268 9.12683 12.194 8.69401C11.8043 8.3043 11.1784 8.28591 10.7664 8.65206L7.84084 11.2526C7.39332 11.6504 7.39332 12.3496 7.84084 12.7474L10.7664 15.3479C11.1784 15.7141 11.8043 15.6957 12.194 15.306C12.6268 14.8732 12.5946 14.1621 12.1244 13.7703L10.3687 12.3073C10.1768 12.1474 10.1768 11.8526 10.3687 11.6927Z" fill="black" />
+                    <path opacity="0.5" d="M16 5V6C16 6.55228 15.5523 7 15 7C14.4477 7 14 6.55228 14 6C14 5.44772 13.5523 5 13 5H6C5.44771 5 5 5.44772 5 6V18C5 18.5523 5.44771 19 6 19H13C13.5523 19 14 18.5523 14 18C14 17.4477 14.4477 17 15 17C15.5523 17 16 17.4477 16 18V19C16 20.1046 15.1046 21 14 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H14C15.1046 3 16 3.89543 16 5Z" fill="black" />
+                </svg>
+            </span>
+            <!--end::Svg Icon-->
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr076.svg-->
+            <span class="svg-icon svg-icon-1 minimize-active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect opacity="0.3" width="12" height="2" rx="1" transform="matrix(-1 0 0 1 15.5 11)" fill="black" />
+                    <path d="M13.6313 11.6927L11.8756 10.2297C11.4054 9.83785 11.3732 9.12683 11.806 8.69401C12.1957 8.3043 12.8216 8.28591 13.2336 8.65206L16.1592 11.2526C16.6067 11.6504 16.6067 12.3496 16.1592 12.7474L13.2336 15.3479C12.8216 15.7141 12.1957 15.6957 11.806 15.306C11.3732 14.8732 11.4054 14.1621 11.8756 13.7703L13.6313 12.3073C13.8232 12.1474 13.8232 11.8526 13.6313 11.6927Z" fill="black" />
+                    <path d="M8 5V6C8 6.55228 8.44772 7 9 7C9.55228 7 10 6.55228 10 6C10 5.44772 10.4477 5 11 5H18C18.5523 5 19 5.44772 19 6V18C19 18.5523 18.5523 19 18 19H11C10.4477 19 10 18.5523 10 18C10 17.4477 9.55228 17 9 17C8.44772 17 8 17.4477 8 18V19C8 20.1046 8.89543 21 10 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H10C8.89543 3 8 3.89543 8 5Z" fill="#C4C4C4" />
+                </svg>
+            </span>
+            <!--end::Svg Icon-->
+        </div>
+        <!--end::Aside minimize-->
+        <!--begin::Aside toggle-->
+        <div class="d-flex align-items-center d-lg-none ms-n3 me-1" title="Show aside menu">
+            <div class="btn btn-icon btn-active-color-primary w-30px h-30px" id="kt_aside_mobile_toggle">
+                <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+                <span class="svg-icon svg-icon-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="black" />
+                        <path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="black" />
+                    </svg>
                 </span>
-                <!--end:Menu link-->
+                <!--end::Svg Icon-->
             </div>
-            <!--end:Menu item-->
-            <!--begin:Menu item-->
-            <div class="menu-item {{ set_here('user.data') }} me-0 me-lg-2">
-                <!--begin:Menu link-->
-                <span class="menu-link">
-                    <a href="{{ route('user.data') }}" class="menu-title">User</a>                    
-                <!--end:Menu link-->
-            </div>
-            <!--end:Menu item-->
-            <!--begin:Menu item-->
-            <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
-                <!--begin:Menu link-->
-                <span class="menu-link">
-                    <span class="menu-title">Help</span>
-                    <span class="menu-arrow d-lg-none"></span>
-                </span>
-                <!--end:Menu link-->
-                <!--begin:Menu sub-->
-                <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
-                    <!--begin:Menu item-->
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities" target="_blank" title="Check out over 200 in-house components, plugins and ready for use solutions" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-                            <span class="menu-icon">
-                                <i class="ki-outline ki-rocket fs-2"></i>
-                            </span>
-                            <span class="menu-title">Components</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
-                    <!--begin:Menu item-->
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs" target="_blank" title="Check out the complete documentation" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-                            <span class="menu-icon">
-                                <i class="ki-outline ki-abstract-26 fs-2"></i>
-                            </span>
-                            <span class="menu-title">Documentation</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
-                </div>
-                <!--end:Menu sub-->
-            </div>
-            <!--end:Menu item-->
         </div>
-        <!--end::Menu-->
+        <!--end::Aside toggle-->
     </div>
-    <!--end::Menu wrapper-->
-    <!--begin::Navbar-->
-    <div class="app-navbar flex-shrink-0">
-        <!--begin::Search-->
-        <div class="d-flex align-items-stretch mx-lg-4 mx-3">
-            <!--begin::Search-->
-            <div id="kt_header_search" class="header-search d-flex align-items-center w-lg-200px" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="menu" data-kt-search-responsive="lg" data-kt-menu-trigger="auto" data-kt-menu-permanent="true" data-kt-menu-placement="bottom-start">
-                <!--begin::Tablet and mobile search toggle-->
-                <div data-kt-search-element="toggle" class="search-toggle-mobile d-flex d-lg-none align-items-center">
-                    <div class="d-flex">
-                        <i class="ki-outline ki-magnifier fs-1"></i>
-                    </div>
-                </div>
-                <!--end::Tablet and mobile search toggle-->
-                <!--begin::Form(use d-none d-lg-block classes for responsive search)-->
-                <form data-kt-search-element="form" class="d-none d-lg-block w-100 position-relative mb-5 mb-lg-0" autocomplete="off">
-                    <!--begin::Hidden input(Added to disable form autocomplete)-->
-                    <input type="hidden" />
-                    <!--end::Hidden input-->
-                    <!--begin::Icon-->
-                    <i class="ki-outline ki-magnifier search-icon fs-2 text-gray-500 position-absolute top-50 translate-middle-y ms-5"></i>
-                    <!--end::Icon-->
-                    <!--begin::Input-->
-                    <input type="text" class="search-input form-control form-control rounded-1 ps-13" name="search" value="" placeholder="Search..." data-kt-search-element="input" />
-                    <!--end::Input-->
-                    <!--begin::Spinner-->
-                    <span class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
-                        <span class="spinner-border h-15px w-15px align-middle text-gray-400"></span>
-                    </span>
-                    <!--end::Spinner-->
-                    <!--begin::Reset-->
-                    <span class="search-reset btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-4" data-kt-search-element="clear">
-                        <i class="ki-outline ki-cross fs-2 fs-lg-1 me-0"></i>
-                    </span>
-                    <!--end::Reset-->
-                </form>
-                <!--end::Form-->
+    <!--end::Brand-->
+    <div class="toolbar">
+        <!--begin::Toolbar-->
+        <div class="container-fluid py-6 py-lg-0 d-flex flex-column flex-lg-row align-items-lg-stretch justify-content-lg-between">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column me-5">
+                <!--begin::Title-->
+                <h1 class="d-flex flex-column text-dark fw-bolder fs-3 mb-0">{{ $judul }}</h1>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 pt-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">{{ $judul }}</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">{{ $sub_judul }}</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
             </div>
-            <!--end::Search-->
+            <!--end::Page title-->
         </div>
-        <!--end::Search-->
-        <!--begin::Notifications-->
-        <div class="app-navbar-item ms-1 ms-lg-5">
-            <!--begin::Menu- wrapper-->
-            <div class="btn btn-icon btn-color-white btn-active-color-primary w-35px h-35px w-md-40px h-md-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom">
-                <i class="ki-outline ki-calendar fs-1"></i>
-            </div>
-            <!--begin::Menu-->
-            <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-kt-menu="true" id="kt_menu_notifications">
-                <!--begin::Heading-->
-                <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background-image:url('{{ asset('/') }}assets/media/misc/menu-header-bg.jpg')">
-                    <!--begin::Title-->
-                    <h3 class="text-white fw-semibold px-9 mt-10 mb-6">Notifications
-                    <span class="fs-8 opacity-75 ps-3">24 reports</span></h3>
-                    <!--end::Title-->
-                    <!--begin::Tabs-->
-                    <ul class="nav nav-line-tabs nav-line-tabs-2x nav-stretch fw-semibold px-9">
-                        <li class="nav-item">
-                            <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active" data-bs-toggle="tab" href="#kt_topbar_notifications_1">Alerts</a>
-                        </li>
-                    </ul>
-                    <!--end::Tabs-->
-                </div>
-                <!--end::Heading-->
-                <!--begin::Tab content-->
-                <div class="tab-content">
-                    <!--begin::Tab panel-->
-                    <div class="tab-pane fade show active" id="kt_topbar_notifications_1" role="tabpanel">
-                        <!--begin::Items-->
-                        <div class="scroll-y mh-325px my-5 px-8">
-                            <!--begin::Item-->
-                            <div class="d-flex flex-stack py-4">
-                                <!--begin::Section-->
-                                <div class="d-flex align-items-center">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-35px me-4">
-                                        <span class="symbol-label bg-light-primary">
-                                            <i class="ki-outline ki-abstract-28 fs-2 text-primary"></i>
-                                        </span>
-                                    </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Title-->
-                                    <div class="mb-0 me-2">
-                                        <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-bold">Project Alice</a>
-                                        <div class="text-gray-400 fs-7">Phase 1 development</div>
-                                    </div>
-                                    <!--end::Title-->
-                                </div>
-                                <!--end::Section-->
-                                <!--begin::Label-->
-                                <span class="badge badge-light fs-8">1 hr</span>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Item-->
-                            <!--begin::Item-->
-                            <div class="d-flex flex-stack py-4">
-                                <!--begin::Section-->
-                                <div class="d-flex align-items-center">
-                                    <!--begin::Symbol-->
-                                    <div class="symbol symbol-35px me-4">
-                                        <span class="symbol-label bg-light-danger">
-                                            <i class="ki-outline ki-information fs-2 text-danger"></i>
-                                        </span>
-                                    </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Title-->
-                                    <div class="mb-0 me-2">
-                                        <a href="#" class="fs-6 text-gray-800 text-hover-primary fw-bold">HR Confidential</a>
-                                        <div class="text-gray-400 fs-7">Confidential staff documents</div>
-                                    </div>
-                                    <!--end::Title-->
-                                </div>
-                                <!--end::Section-->
-                                <!--begin::Label-->
-                                <span class="badge badge-light fs-8">2 hrs</span>
-                                <!--end::Label-->
-                            </div>
-                            <!--end::Item-->
-                        </div>
-                        <!--end::Items-->
-                        <!--begin::View more-->
-                        <div class="py-3 text-center border-top">
-                            <a href="../../demo32/dist/pages/user-profile/activity.html" class="btn btn-color-gray-600 btn-active-color-primary">View All
-                            <i class="ki-outline ki-arrow-right fs-5"></i></a>
-                        </div>
-                        <!--end::View more-->
-                    </div>
-                    <!--end::Tab panel-->
-                </div>
-                <!--end::Tab content-->
-            </div>
-            <!--end::Menu-->
-            <!--end::Menu wrapper-->
-        </div>
-        <!--end::Notifications-->
-        <!--begin::User menu-->
-        <div class="app-navbar-item ms-5" id="kt_header_user_menu_toggle">
-            <!--begin::Menu wrapper-->
-            <div class="cursor-pointer symbol symbol-35px symbol-md-45px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                <img class="symbol symbol-circle symbol-35px symbol-md-45px" src="{{ asset('/') }}assets/media/avatars/300-2.jpg" alt="user" />
-            </div>
-            <!--begin::User account menu-->
-            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
-                <!--begin::Menu item-->
-                <div class="menu-item px-3">
-                    <div class="menu-content d-flex align-items-center px-3">
-                        <!--begin::Avatar-->
-                        <div class="symbol symbol-50px me-5">
-                            <img alt="Logo" src="{{ asset('/') }}assets/media/avatars/300-2.jpg" />
-                        </div>
-                        <!--end::Avatar-->
-                        <!--begin::Username-->
-                        <div class="d-flex flex-column">
-                            <div class="fw-bold d-flex align-items-center fs-5">Jane Cooper
-                            <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span></div>
-                            <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">max@kt.com</a>
-                        </div>
-                        <!--end::Username-->
-                    </div>
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu separator-->
-                <div class="separator my-2"></div>
-                <!--end::Menu separator-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5">
-                    <a href="../../demo32/dist/account/overview.html" class="menu-link px-5">My Profile</a>
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu separator-->
-                <div class="separator my-2"></div>
-                <!--end::Menu separator-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
-                    <a href="#" class="menu-link px-5">
-                        <span class="menu-title position-relative">Mode
-                        <span class="ms-5 position-absolute translate-middle-y top-50 end-0">
-                            <i class="ki-outline ki-night-day theme-light-show fs-2"></i>
-                            <i class="ki-outline ki-moon theme-dark-show fs-2"></i>
-                        </span></span>
-                    </a>
-                    <!--begin::Menu-->
-                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-title-gray-700 menu-icon-gray-500 menu-active-bg menu-state-color fw-semibold py-4 fs-base w-150px" data-kt-menu="true" data-kt-element="theme-mode-menu">
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
-                                <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-night-day fs-2"></i>
-                                </span>
-                                <span class="menu-title">Light</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
-                                <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-moon fs-2"></i>
-                                </span>
-                                <span class="menu-title">Dark</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
-                                <span class="menu-icon" data-kt-element="icon">
-                                    <i class="ki-outline ki-screen fs-2"></i>
-                                </span>
-                                <span class="menu-title">System</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                    </div>
-                    <!--end::Menu-->
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5 my-1">
-                    <a href="../../demo32/dist/account/settings.html" class="menu-link px-5">Account Settings</a>
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item px-5">
-                    <a href="{{ route('logout') }}" class="menu-link px-5">Sign Out</a>
-                </div>
-                <!--end::Menu item-->
-            </div>
-            <!--end::User account menu-->
-            <!--end::Menu wrapper-->
-        </div>
-        <!--end::User menu-->
+        <!--end::Toolbar-->
     </div>
-    <!--end::Navbar-->
 </div>
-<!--end::Header wrapper-->
