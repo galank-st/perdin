@@ -84,6 +84,9 @@ License: For each use you must have a valid license purchased only from above li
 		<script>var hostUrl = "assets/";</script>
 		@yield('modal')
 		@include('layouts.script')
+		<script>
+			let url = "{{url('/')}}"
+		</script>
 		@yield('js')
 		<script>
 			$(document).ready(function() {

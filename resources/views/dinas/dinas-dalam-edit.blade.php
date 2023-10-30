@@ -10,7 +10,7 @@
                 <h2>Ubah Perjalanan Dinas</h2>
                 <br><br>
 				<!--begin::Form-->
-                <form id="kt_docs_form validation_text" class="form" method="POST" action="{{route('dl.update')}}">
+                <form id="kt_docs_form validation_text" class="form" method="POST" action="{{route('dd.update')}}">
                     @csrf
                     <!--begin::Input group-->
                     <div class="fv-row mb-10">
@@ -50,7 +50,7 @@
                         <select class="form-select" data-control="select2" data-placeholder="Pilih Pegawai" data-allow-clear="true" multiple="multiple" name="pegawai_id[]" id="pegawai_id" selected="true" value="{{$d->pegawai_id}}">
                             <option></option>
                             @foreach ($pegawai as $p)
-                            <option value="{{$p->id}}">{{$p->nama}}</option>                                
+                            <option value="{{$p->id_pegawai}}">{{$p->nama}}</option>                                
                             @endforeach
                         </select>
                         <!--end::Input-->
@@ -134,7 +134,6 @@
     $("#pegawai_id").select2({
         tags: true
     });
-    let url = '{{ url('/')}}';
     var changeInterval = null;
     $("#tanggal").flatpickr();
     $("#tanggal_pulang").flatpickr();

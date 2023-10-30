@@ -43,6 +43,7 @@
                             <th width="25%">Nama</th>
                             <th>Kegiatan</th>
                             <th>Tujuan</th>
+                            <th>No. SP</th>
                             <th>Tanggal</th>
                             <th>Tanggal Pulang</th>
                             <th>Pembuat</th>                        
@@ -71,6 +72,7 @@
             {data: 'nama', name: 'nama'},
             {data: 'kegiatan', name: 'kegiatan'},
             {data: 'tujuan', name: 'tujuan'},
+            {data: 'no_sp', name: 'no_sp'},
             {data: 'tanggal', name: 'tanggal'},
             {data: 'tanggal_pulang', name: 'tanggal_pulang'},
             {data: 'user', name: 'user'},
@@ -119,5 +121,44 @@
     }   
 
     handleSearchDatatable();
+
+    $(document).on('click', '.hapus', function () {
+        let no_sp = $(this).data('no_sp')
+        console.clear();
+        Swal.fire({
+            title: 'Apa Anda yakin untuk Hapus?',
+            text: "Data yang terhapus tidak bisa dikembalikan. :(",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Tidak, batalkan!',
+            reverseButtons: true,
+            padding: '2em'
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: url+"/ajax/dinas-luar/del/"+no_sp,
+                    success:function(result){
+                        Swal.fire({
+                            title: 'Terhapus!',
+                            text: "Data berhasil dihapus!",
+                            icon: 'success'
+                        })
+                        $('#data_table').DataTable().ajax.reload();
+                    },
+                    error:function(result)
+                    {
+                        Swal.fire({
+                            title: 'Ups!',
+                            text: "Server bermasalah.",
+                            icon: 'error'
+                        })
+                    }
+                });
+            } 
+        })
+    })
 </script>
 @endsection
