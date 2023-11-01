@@ -157,17 +157,18 @@
     });
     var changeInterval = null;
     $("#tanggal").flatpickr();
-    $("#tanggal_pulang").flatpickr();
 
     $('#hari2').on('click', function () { 
-        let form = `<div id="tanggal_pulang" class="fv-row mb-10">
+        let form = `<div id="tgl_pulang" class="fv-row mb-10">
                         <label class="required fw-bold fs-6 mb-2">Tanggal Pulang</label>
                         <input placeholder="Pilih Tanggal" class="form-control" id="tanggal_pulang" name="tanggal_pulang"/>
                     </div>`;
         $('#pulang').html(form)
+        $("#tanggal_pulang").flatpickr();
+
     })
     $('#hari1').on('click', function () {
-        $('#tanggal_pulang').remove()
+        $('#tgl_pulang').remove()
     })
 
     $('#pegawai_id').on("select2:select", function(){ 

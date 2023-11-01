@@ -166,7 +166,7 @@
                 type: "GET",
                 url: url+"/ajax/cek-dinas/"+pegawai+"/"+tanggal+"/"+tanggal_pulang+"/"+no_sp,
                 success:function(result){
-                    console.log(result['pegawai'])
+                    // console.log(result['pegawai'])
                     if(result['pegawai'] == 1){
                         Swal.fire({
                             text: result['pesan'],

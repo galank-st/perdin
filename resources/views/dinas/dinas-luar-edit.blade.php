@@ -123,7 +123,7 @@
 @endsection
 @section('js')
 <script>        
-    let array_pegawai = []  
+    let array_pegawai = '{{$d->pegawai_id}}' 
 
     let pegawai_id = '{{$d->pegawai_id}}'
     var arr = pegawai_id.split(',').map(function(item) {
@@ -136,13 +136,12 @@
     });
     var changeInterval = null;
     $("#tanggal").flatpickr();
-    $("#tanggal_pulang").flatpickr();
-
     $('#hari2').on('click', function () { 
         let form = `<div id="tanggal_pulang" class="fv-row mb-10">
                         <label class="required fw-bold fs-6 mb-2">Tanggal Pulang</label>
                         <input placeholder="Pilih Tanggal" class="form-control" id="tanggal_pulang" name="tanggal_pulang"/>
                     </div>`;
+        $("#tanggal_pulang").flatpickr();
         $('#pulang').html(form)
     })
     $('#hari1').on('click', function () {
@@ -166,8 +165,8 @@
                 type: "GET",
                 url: url+"/ajax/cek-dinas/"+pegawai+"/"+tanggal+"/"+tanggal_pulang+"/"+no_sp,
                 success:function(result){
-                    console.log(result['pegawai'])
-                    if(result['pegawai'] == 1){
+                    // console.log(result)
+                    if(result['pesan']){
                         Swal.fire({
                             text: result['pesan'],
                             icon: "warning",

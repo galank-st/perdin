@@ -35,13 +35,13 @@
 					<!--begin::Form-->
 					<div class="d-flex flex-center flex-column flex-lg-row-fluid">
 						<!--begin::Wrapper-->
-						<div class="w-lg-500px p-10">
+						<div class="w-lg-600px w-400px p-10">
 							<!--begin::Form-->
 							<form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" method="POST" action="{{ route('login.auth') }}">
 								@csrf
 								<!--begin::Heading-->
 								<center>
-									<img alt="Logo" src="{{ asset('/') }}assets/media/logos/logo-dark.png" class="h-25px h-lg-50px" />
+									<img alt="Logo" src="{{ asset('/') }}assets/media/logos/logo-dark.png" class="h-40px h-lg-60px" />
 								</center>
 								<!--begin::Heading-->
 								<!--begin::Separator-->
@@ -64,10 +64,6 @@
 								<!--end::Input group=-->
 								<!--begin::Wrapper-->
 								<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-									<div></div>
-									<!--begin::Link-->
-									{{-- <a href="../../demo32/dist/authentication/layouts/corporate/reset-password.html" class="link-primary">Forgot Password ?</a> --}}
-									<!--end::Link-->
 								</div>
 								<!--end::Wrapper-->
 								<!--begin::Submit button-->

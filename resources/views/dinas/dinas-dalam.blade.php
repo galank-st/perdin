@@ -61,6 +61,51 @@
     <!--end::Post-->
 </div>
 @endsection
+@section('modal')
+<div class="modal fade" id="modalSppd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <h2 class="modal-title">Pilih Pegawai</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('sppd') }}" method="POST" id="cetak">
+                @csrf
+                <div class="modal-body">
+                    <div id="pegawai"></div>
+                    <input type="hidden" name="id_dinas" id="id_dinas">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-sm btn-info"> <i class="las la-print fs-3"></i> Cetak</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <h2 class="modal-title">Pilih Pegawai</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('sp') }}" method="POST" id="cetak2">
+                @csrf
+                <div class="modal-body">
+                    <div id="pegawai2"></div>
+                    <input type="hidden" name="id_dinas" id="id_dinas2">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-sm btn-info"> <i class="las la-print fs-3"></i> Cetak</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
 @section('js')
 <script>    
     dt = $("#data_table").DataTable({
@@ -160,5 +205,90 @@
             } 
         })
     })
+
+    $(document).on('click', '.sppd', function () {
+        let no_sp = $(this).data('no_sp')
+        let ket = $(this).data('keterangan')
+        let id = $(this).data('id')
+
+        $('#id_dinas').val(id);
+
+        let checkbox = ''
+        // console.clear();
+        $.ajax({
+            type: "GET",
+            url: url+"/cek-pegawai/"+no_sp+'/'+ket,
+            success:function(result){
+                for (let i = 0; i < result.length; i++) {
+                    checkbox += `<div class=" mb-2 form-check form-check-custom"><input class="form-check-input" name="pegawai_id[]" type="checkbox" value="`+result[i]['id_pegawai']+`" id="`+result[i]['id_dinas']+`"/><label class="form-check-label" for="`+result[i]['id_dinas']+`"> `+' '+result[i]['nama']+`</label></div>`;
+                }
+                $('#pegawai').html(checkbox)
+            },
+            error:function(result)
+            {
+                Swal.fire({
+                    title: 'Ups!',
+                    text: "Server bermasalah.",
+                    icon: 'error'
+                })
+            }
+        });       
+    })
+
+    $("#cetak").submit(function(event) {
+        let pegawai = $("input[type='checkbox']:checked");
+        
+        if (pegawai.length < 1) {
+            event.preventDefault(); 
+            Swal.fire({
+                    title: 'Ups!',
+                    text: "Mohon pilih pegawai.",
+                    icon: 'error'
+                })
+        }
+    });
+
+    $(document).on('click', '.sp', function () {
+        let no_sp = $(this).data('no_sp')
+        let ket = $(this).data('keterangan')
+        let id = $(this).data('id')
+
+        $('#id_dinas2').val(id);
+
+        let checkbox = ''
+        // console.clear();
+        $.ajax({
+            type: "GET",
+            url: url+"/cek-pegawai/"+no_sp+'/'+ket,
+            success:function(result){
+                for (let i = 0; i < result.length; i++) {
+                    checkbox += `<div class=" mb-2 form-check form-check-custom"><input class="form-check-input" name="pegawai_id[]" type="checkbox" value="`+result[i]['id_pegawai']+`" id="`+result[i]['id_dinas']+`"/><label class="form-check-label" for="`+result[i]['id_dinas']+`"> `+' '+result[i]['nama']+`</label></div>`;
+                }
+                $('#pegawai2').html(checkbox)
+            },
+            error:function(result)
+            {
+                Swal.fire({
+                    title: 'Ups!',
+                    text: "Server bermasalah.",
+                    icon: 'error'
+                })
+            }
+        });       
+    })
+
+    $("#cetak2").submit(function(event) {
+        let pegawai = $("input[type='checkbox']:checked");
+        
+        if (pegawai.length < 1) {
+            event.preventDefault(); 
+            Swal.fire({
+                    title: 'Ups!',
+                    text: "Mohon pilih pegawai.",
+                    icon: 'error'
+                })
+        }
+    });
+
 </script>
 @endsection

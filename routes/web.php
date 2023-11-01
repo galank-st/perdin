@@ -7,6 +7,7 @@ use App\Http\Controllers\DinasController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\SignerController;
 use App\Http\Controllers\UserController;
 use App\Models\Bidang;
 
@@ -49,12 +50,24 @@ Route::post('/dinas-dalam/create', [DinasController::class, 'create_dd'])->name(
 Route::get('/dinas-dalam/edit/{no_sp}', [DinasController::class, 'edit_dd'])->name('dd.edit');
 Route::post('/dinas-dalam/update', [DinasController::class, 'update_dd'])->name('dd.update');
 
+//CETAK
+Route::post('/SPPD', [DinasController::class, 'sppd'])->name('sppd');
+Route::post('/SP', [DinasController::class, 'sp'])->name('sp');
+Route::get('/rekap', [DashboardController::class, 'rekap'])->name('rekap');
+
+
+//SIGNER
+Route::get('/signer', [SignerController::class, 'index'])->name('signer');
+Route::post('/signer', [SignerController::class, 'create'])->name('signer.create');
+
+
 //PEGAWAI
 Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai');
 Route::get('/ajax/pegawai/data', [PegawaiController::class, 'data'])->name('pegawai.data');
 Route::post('/pegawai/create', [PegawaiController::class, 'create'])->name('pegawai.create');
 Route::post('/pegawai/update', [PegawaiController::class, 'update'])->name('pegawai.update');
 Route::get('/ajax/pegawai/del/{id}', [PegawaiController::class, 'delete'])->name('pegawai.delete');
+Route::get('/cek-pegawai/{no_sp}/{keterangan}', [DinasController::class, 'cek_pegawai'])->name('cek_pegawai');
 
 //BIDANG
 Route::get('/bidang', [BidangController::class, 'index'])->name('bidang');
