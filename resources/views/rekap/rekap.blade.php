@@ -1,9 +1,29 @@
 @extends('layouts.template')
 @section('content')
 <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
-    <!--begin::Post-->
     <div class="content col-12" id="kt_content">
-		<div class="card">
+        <div class="card">
+			<!--begin::Datatable-->
+			<div class="card-body pt-0">
+                <div class="fv-row mt-6 mb-0">
+                    <!--begin::Label-->
+                    <label class="required fw-bold fs-6 mb-2">Pilih Bulan</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="hidden" id="bulan_now" value="{{$bulan_now}}">
+                    <select class="form-select" data-control="select2" data-placeholder="Pilih Bulan" id="bulan" selected="true" required>
+                        @foreach ($bulan as $angka => $bulan) 
+                        <option value="{{$angka}}">{{$bulan}}</option>                                
+                        @endforeach
+                    </select>
+                    <!--end::Input-->
+                </div>
+			</div>
+			<br>
+			<!--end::Datatable-->
+		</div>
+
+		<div class="card mt-6">
 			<!--begin::Datatable-->
 			<div class="card-body pt-0">
                 <div class="fv-row mt-10 mb-10">
@@ -67,8 +87,19 @@
 @section('js')
 <script>
     $('#data_table').dataTable( {
-    "searching": true,
-    "scrollX": true
-} );
+        "searching": true,
+        "scrollX": true
+    } );
+    let bulan = $('#bulan_now').val();
+    if (bulan != 0){
+        $('#bulan').val(bulan).trigger('change');
+    }
+
+    $('#bulan').on("change", function(){ 
+        let bulan = $(this).val();
+        var newURL = url+'/rekap/'+bulan;
+        window.location.href = newURL;
+
+    });
 </script>
 @endsection

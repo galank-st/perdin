@@ -54,6 +54,8 @@ Route::post('/dinas-dalam/update', [DinasController::class, 'update_dd'])->name(
 Route::post('/SPPD', [DinasController::class, 'sppd'])->name('sppd');
 Route::post('/SP', [DinasController::class, 'sp'])->name('sp');
 Route::get('/rekap', [DashboardController::class, 'rekap'])->name('rekap');
+Route::get('/rekap/{bulan}', [DashboardController::class, 'rekapByBulan'])->name('rekapByBulan');
+
 
 
 //SIGNER
