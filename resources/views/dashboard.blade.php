@@ -209,31 +209,31 @@ $(document).ready(function() {
                     data: chartData
                 }],
                 chart: {
-                height: 350,
-                type: 'line',
-                zoom: {
-                    enabled: false
-                }
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    }
                 },
                 dataLabels: {
-                enabled: false
+                    enabled: false
                 },
                 stroke: {
-                curve: 'straight'
+                    curve: 'straight'
                 },
                 title: {
-                text: 'Grafik Laporan Bulanan Perjalanan Dinas',
-                align: 'left'
+                    text: 'Grafik Laporan Bulanan Perjalanan Dinas',
+                    align: 'left'
                 },
                 grid: {
-                row: {
-                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                    opacity: 0.5
-                },
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
                 },
                 xaxis: {
-                categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-            }
+                    categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                }
             };
 
             chart = new ApexCharts(document.querySelector("#chart"), options);
@@ -245,12 +245,6 @@ $(document).ready(function() {
         }
     });
 })
-
-function refreshChart(newData, newCategories) {
-    chart.destroy(); // Destroy the existing chart
-    createChart(newData, newCategories); // Recreate the chart with new data and categories
-}
-
 
 $('#bulan').on("change", function(){  
     let bulan = $(this).val();
