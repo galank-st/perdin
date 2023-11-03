@@ -205,7 +205,7 @@ $(document).ready(function() {
             var chartData = result
             var options = {
                 series: [{
-                    name: "Jumlah Perdin",
+                    name: "Jumlah Perjalanan Dinas",
                     data: chartData
                 }],
                 chart: {
