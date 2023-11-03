@@ -17,6 +17,20 @@ class DashboardController extends Controller
         $data['dd_bidang'] = DB::select("SELECT bidang, COUNT(id_dinas) jml FROM bidang b JOIN pegawai p ON b.id_bidang=p.bidang_id JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Dalam' GROUP BY id_bidang ORDER BY jml DESC");
         $data['dl_pegawai'] = DB::select("SELECT nama, COUNT(id_dinas) jml FROM pegawai p JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Luar' GROUP BY id_pegawai ORDER BY jml DESC LIMIT 10");
         $data['dd_pegawai'] = DB::select("SELECT nama, COUNT(id_dinas) jml FROM pegawai p JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Dalam' GROUP BY id_pegawai ORDER BY jml DESC LIMIT 10");
+        $data['bulan'] = [
+            1 => "Januari",
+            2 => "Februari",
+            3 => "Maret",
+            4 => "April",
+            5 => "Mei",
+            6 => "Juni",
+            7 => "Juli",
+            8 => "Agustus",
+            9 => "September",
+            10 => "Oktober",
+            11 => "November",
+            12 => "Desember"
+        ];
 
         return view('dashboard', $data);
     }
@@ -128,4 +142,59 @@ class DashboardController extends Controller
         // return $data['dinas'][0]->dinas[0]->x1;
         return view('rekap.rekap', $data);
     } 
+    public function grafikBulanan(){
+        $data= [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ];
+
+        $grafik = DB::select("SELECT MONTH(tanggal) bulan, COUNT(id_dinas) jml FROM dinas d GROUP BY MONTH(tanggal) ORDER BY MONTH(tanggal)");
+        foreach ($grafik as $g) {
+            if(isset($g->jml)){
+                $data[$g->bulan-1]= $g->jml;
+            }
+        }
+        return response()->json($data, 200);
+    }
+
+    public function grafikHarian($bulan){
+        $tahun = date('Y');
+        $jml_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+
+        $data['hari'] = [];
+        for ($x=0; $x < $jml_hari ; $x++) { 
+            $data['hari'][$x] = $x+1;
+        }
+
+        $dinas = DB::select("SELECT DAY(tanggal) tgl, COUNT(id_dinas) jml FROM dinas WHERE MONTH(tanggal)='$bulan' GROUP BY tgl");
+
+        $data['dinas'] = [];
+        for ($x=0; $x <= $jml_hari ; $x++) { 
+            $data['dinas'][$x] = 0;
+        }
+
+        foreach ($dinas as $d) {
+            if(isset($d->jml)){
+                $data['dinas'][$d->tgl-1]= $d->jml;
+            }
+        }
+
+        $grafik = DB::select("SELECT MONTH(tanggal) bulan, COUNT(id_dinas) jml FROM dinas d GROUP BY MONTH(tanggal) ORDER BY MONTH(tanggal)");
+        foreach ($grafik as $g) {
+            if(isset($g->jml)){
+                $data[$g->bulan]= $g->jml;
+            }
+        }
+        return response()->json($data, 200);
+    }
 }

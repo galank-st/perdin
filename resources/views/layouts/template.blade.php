@@ -91,7 +91,6 @@ License: For each use you must have a valid license purchased only from above li
 		<script>
 			$(document).ready(function() {
 				function realtime() {
-  
 				let time = moment().format('h:mm:ss');
 				document.getElementById('jam').innerHTML = time;
 				

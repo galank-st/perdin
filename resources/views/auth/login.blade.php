@@ -115,6 +115,35 @@
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="{{ asset('/') }}assets/plugins/global/plugins.bundle.js"></script>
 		<script src="{{ asset('/') }}assets/js/scripts.bundle.js"></script>
+		@if($x = Session::get('success'))
+		<script type="text/javascript">
+			$(function() {
+				Swal.fire({
+					text: '{{ $x }}',
+					icon: "success",
+					buttonsStyling: false,
+					confirmButtonText: "Ok",
+					customClass: {
+						confirmButton: "btn btn-primary"
+					}
+				});
+			})
+		</script>
+		@elseif($x = Session::get('error'))
+		<script type="text/javascript">
+			$(function() {
+				Swal.fire({
+					text: '{{ $x }}',
+					icon: "error",
+					buttonsStyling: false,
+					confirmButtonText: "Ok",
+					customClass: {
+						confirmButton: "btn btn-primary"
+					}
+				});
+			})      
+		</script>
+@endif
 		<!--end::Global Javascript Bundle-->
 		<!--end::Javascript-->
 	</body>

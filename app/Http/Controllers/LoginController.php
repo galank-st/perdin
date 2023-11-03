@@ -20,18 +20,12 @@ class LoginController extends Controller
         ]);
         $credentials = $request->only('username', 'password');
 
-        if (Auth::attempt($credentials)) {   
-        // return "berhasil";
-
+        if (Auth::attempt($credentials)) {  
             $request->session()->regenerate();
-
-            // dd(Auth::user(), Auth::Guest());
-            // return Auth::user();
-
             return redirect()->intended('/');
         }
 
-        return redirect()->back()->with('x','Ups! \n Username atau Password Salah :(');
+        return redirect()->back()->with('error','Ups! Username atau Password Salah :(');
     }
 
     public function logout()

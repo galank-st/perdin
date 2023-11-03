@@ -30,7 +30,12 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
+    //DASHBOARD
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/grafik-bulanan', [DashboardController::class, 'grafikBulanan'])->name('grafikBulanan');
+Route::get('/grafik-harian/{bulan}', [DashboardController::class, 'grafikHarian'])->name('grafikHarian');
+
+
 Route::get('/data-user', [UserController::class, 'index'])->name('user.data');
 Route::get('/get-user', [UserController::class, 'get_user'])->name('user.get');
 
