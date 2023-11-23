@@ -24,9 +24,10 @@ class DinasController extends Controller
     }
 
     public function add_dl(){
+        $opd_id = Auth::user()->opd_id;
         $data['judul'] = 'Dinas Luar';
         $data['sub_judul'] = 'Tambah Dinas Luar';
-        $data['pegawai'] = DB::select("SELECT * FROM pegawai");
+        $data['pegawai'] = DB::select("SELECT * FROM pegawai WHERE opd_id='$opd_id'");
         $cek_sp = DB::select("SELECT id_dinas, no_sp FROM dinas WHERE keterangan='Dinas Luar' GROUP BY no_sp DESC");
         if (!$cek_sp){
             $data['no_sp'] = 1;
@@ -37,10 +38,12 @@ class DinasController extends Controller
     }
 
     public function edit_dl($no_sp){
+        $opd_id = Auth::user()->opd_id;
         $no_sp = decrypt($no_sp);
+
         $data['judul'] = 'Dinas Luar';
         $data['sub_judul'] = 'Ubah Dinas Luar';
-        $data['pegawai'] = DB::select("SELECT * FROM pegawai");
+        $data['pegawai'] = DB::select("SELECT * FROM pegawai WHERE opd_id='$opd_id'");
         $data['dinas'] = DB::select("SELECT dinas.*, GROUP_CONCAT(DISTINCT pegawai.id_pegawai SEPARATOR ',') as pegawai_id, GROUP_CONCAT(DISTINCT dinas.id_dinas SEPARATOR ',') as dinas_id FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE no_sp='$no_sp' LIMIT 1");
 
         return view('dinas.dinas-luar-edit', $data);
@@ -50,11 +53,12 @@ class DinasController extends Controller
     {
         if ($request->ajax()) {
             $user_id = Auth::user()->id_user;
+            $opd_id = Auth::user()->opd_id;
             // return $user;
             if(Auth::user()->role == 'user'){
-                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Luar' AND YEAR( tanggal)=YEAR(NOW()) GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
-            } else if(Auth::user()->role == 'super' || Auth::user()->role == 'admin') {
-                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Luar' AND YEAR( tanggal)=YEAR(NOW()) GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
+                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Luar' AND YEAR( tanggal)=YEAR(NOW()) AND dinas.opd_id='$opd_id' GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
+            } else if(Auth::user()->role == 'admin') {
+                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Luar' AND YEAR( tanggal)=YEAR(NOW()) AND dinas.opd_id='$opd_id' GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
             }
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -222,9 +226,11 @@ class DinasController extends Controller
     }
 
     public function add_dd(){
+        $opd_id = Auth::user()->opd_id;
+
         $data['judul'] = 'Dinas Dalam';
         $data['sub_judul'] = 'Tambah Dinas Dalam';
-        $data['pegawai'] = DB::select("SELECT * FROM pegawai");
+        $data['pegawai'] = DB::select("SELECT * FROM pegawai WHERE opd_id='$opd_id'");
         $cek_sp = DB::select("SELECT id_dinas, no_sp FROM dinas WHERE keterangan='Dinas Dalam' GROUP BY no_sp DESC");
         if (!$cek_sp){
             $data['no_sp'] = 1;
@@ -236,10 +242,12 @@ class DinasController extends Controller
     }
 
     public function edit_dd($no_sp){
+        $opd_id = Auth::user()->opd_id;
         $no_sp = decrypt($no_sp);
+
         $data['judul'] = 'Dinas Dalam';
         $data['sub_judul'] = 'Ubah Dinas Dalam';
-        $data['pegawai'] = DB::select("SELECT * FROM pegawai");
+        $data['pegawai'] = DB::select("SELECT * FROM pegawai  WHERE opd_id='$opd_id'");
         $data['dinas'] = DB::select("SELECT dinas.*, GROUP_CONCAT(DISTINCT pegawai.id_pegawai SEPARATOR ',') as pegawai_id, GROUP_CONCAT(DISTINCT dinas.id_dinas SEPARATOR ',') as dinas_id FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE no_sp='$no_sp' LIMIT 1");
 
         return view('dinas.dinas-dalam-edit', $data);
@@ -249,11 +257,11 @@ class DinasController extends Controller
     {
         // if ($request->ajax()) {
             $user_id = Auth::user()->id_user;
-            // return $user_id;
+            $opd_id = Auth::user()->opd_id;
             if(Auth::user()->role == 'user'){
-                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Dalam' AND YEAR( tanggal)=YEAR(NOW()) GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
-            } else if(Auth::user()->role == 'super') {
-                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Dalam' AND YEAR( tanggal)=YEAR(NOW()) GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
+                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Dalam' AND YEAR( tanggal)=YEAR(NOW()) AND dinas.opd_id='$opd_id' GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
+            } else if(Auth::user()->role == 'admin') {
+                $data = DB::select("SELECT dinas.*, users.name AS user, GROUP_CONCAT(DISTINCT nama SEPARATOR '- ') as nama FROM dinas JOIN pegawai ON dinas.pegawai_id=pegawai.id_pegawai JOIN users ON dinas.user_id=users.id_user WHERE keterangan='Dinas Dalam' AND YEAR( tanggal)=YEAR(NOW()) AND dinas.opd_id='$opd_id' GROUP BY no_sp, kegiatan ORDER BY tanggal DESC");
             }
             // return $data;
             return DataTables::of($data)
@@ -385,6 +393,7 @@ class DinasController extends Controller
     {
         $count_pegawai = count($request->pegawai_id);
         $dinas = Dinas::find($request->id_dinas);
+        $opd_id = Auth::user()->opd_id;
 
         if($dinas->keterangan == 'Dinas Luar'){
             $no_sp = '090/LD/'.$dinas->no_sp.'/'.bulan_romawi($dinas->bulan_input).'/'.date('Y', strtotime($dinas->tanggal));
@@ -394,11 +403,12 @@ class DinasController extends Controller
         
         if ($count_pegawai == 1){
             $id_pegawai = $request->pegawai_id[0];
-            $pegawai = DB::select("SELECT * FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE id_pegawai = '$id_pegawai'");
+            $pegawai = DB::select("SELECT * FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE id_pegawai = '$id_pegawai' AND pegawai.opd_id='$opd_id'");
 
         } else {
             $query = DB::table('pegawai');
             $query->join('jabatan', 'pegawai.jabatan_id','=','jabatan.id_jabatan');
+            $query->where('pegawai.opd_id','=',$opd_id);
             for ($i=0; $i < $count_pegawai; $i++) {
                 $query->orWhere('id_pegawai', '=', $request->pegawai_id[$i]);
             }
@@ -589,7 +599,7 @@ class DinasController extends Controller
         $tab3->addRow(500);
         $tab3->addCell(6500, $styleCell)->addText('');
         $cel3 = $tab3->addCell(4000, $styleCell);
-        $signer = DB::select("SELECT * FROM signer JOIN pegawai ON signer.pegawai_id=pegawai.id_pegawai");
+        $signer = DB::select("SELECT * FROM signer JOIN pegawai ON signer.pegawai_id=pegawai.id_pegawai WHERE pegawai.opd_id='$opd_id'");
         $cel3->addText($signer[0]->nama, 
                 array('name' => 'Arial', 'size' => '12', 'bold' => true,'underline' => 'single'),
                 array('align' => 'center','spaceAfter' => 0)
@@ -610,6 +620,8 @@ class DinasController extends Controller
     {
         $count_pegawai = count($request->pegawai_id);
         $dinas = Dinas::find($request->id_dinas);
+        $opd_id = Auth::user()->opd_id;
+
         // return $request;
         if($dinas->keterangan == 'Dinas Luar'){
             $no_sp = '090/LD/'.$dinas->no_sp.'/'.bulan_romawi($dinas->bulan_input).'/'.date('Y', strtotime($dinas->tanggal));
@@ -619,11 +631,12 @@ class DinasController extends Controller
         
         if ($count_pegawai == 1){
             $id_pegawai = $request->pegawai_id[0];
-            $pegawai = DB::select("SELECT * FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE id_pegawai = '$id_pegawai'");
+            $pegawai = DB::select("SELECT * FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE id_pegawai = '$id_pegawai' AND pegawai.opd_id='$opd_id'");
 
         } else {
             $query = DB::table('pegawai');
             $query->join('jabatan', 'pegawai.jabatan_id','=','jabatan.id_jabatan');
+            $query->where('pegawai.opd_id','=',$opd_id);
             for ($i=0; $i < $count_pegawai; $i++) {
                 $query->orWhere('id_pegawai', '=', $request->pegawai_id[$i]);
             }
@@ -692,7 +705,7 @@ class DinasController extends Controller
         $table2->addCell(550)->addText('', $font, $spaceAfter0);
         $table2->addCell(2600)->addText('Nama', $font, $spaceAfter0);
         $table2->addCell(200)->addText(':', $font, $spaceAfter0);
-        $signer = DB::select("SELECT * FROM signer JOIN pegawai ON signer.pegawai_id=pegawai.id_pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan");
+        $signer = DB::select("SELECT * FROM signer JOIN pegawai ON signer.pegawai_id=pegawai.id_pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE pegawai.opd_id='$opd_id'");
         $table2->addCell(7300)->addText($signer[0]->nama, $font, $spaceAfter0);
 		
         $table2->addRow();
@@ -710,17 +723,17 @@ class DinasController extends Controller
 		$table2->addCell(7300)->addText($signer[0]->jabatan.' Bappeda Litbang Kabupaten Pekalongan', $font);
 
         $section->addText('Memerintahkan Kepada : ', array(
-	    	'bold' => true,
-	    	'name' => 'Arial',
-	    	'size' => '12'
-	    ), array(
-	    	'align' => 'center'
-	    ));
+            'bold' => true,
+            'name' => 'Arial',
+            'size' => '12'
+        ), array(
+            'align' => 'center'
+        ));
 
 
 	// ENTRY TABEL MEMERINTAHKAN
 
-	    $table3 = $section->addTable('myOwnTableStyle');
+        $table3 = $section->addTable('myOwnTableStyle');
         if($count_pegawai == 1){
             $table3->addRow();
 			$table3->addCell(550)->addText('',$font, $spaceAfter0);

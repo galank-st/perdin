@@ -24,13 +24,15 @@ class DashboardController extends Controller
     public function rekap(){
         $bulan = 10;
         $tahun = date('Y');
+        $opd_id = Auth::user()->opd_id;
         $data['jml_hari'] = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
         $data['judul'] = "Rekap";
         $data['sub_judul'] = "Rekap Data";
-        $data['dinas'] = DB::select("SELECT id_pegawai, nama, nip FROM pegawai");
+        $data['dinas'] = DB::select("SELECT id_pegawai, nama, nip FROM pegawai WHERE pegawai.opd_id='$opd_id'");
+        // return $data['dinas'];
         foreach ($data['dinas'] as $p) {
-            $dinas = DB::select("SELECT keterangan, DAY(tanggal) tgl, DAY(tanggal_pulang) tgl_p FROM dinas WHERE pegawai_id='$p->id_pegawai'");
+            $dinas = DB::select("SELECT keterangan, DAY(tanggal) tgl, DAY(tanggal_pulang) tgl_p FROM dinas WHERE pegawai_id='$p->id_pegawai'  AND pegawai.opd_id='$opd_id'");
             $selisih = $dinas[0]->tgl-$dinas[0]->tgl_p;
             $p->dinas = [];
             for ($i=0; $i < $data['jml_hari']; $i++) { 

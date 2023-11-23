@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index(){
+        $opd_id = Auth::user()->opd_id;
+
         $data['judul'] = "Dashboard";
         $data['sub_judul'] = "Dashboard";
-        $data['dl_bidang'] = DB::select("SELECT bidang, COUNT(id_dinas) jml FROM bidang b JOIN pegawai p ON b.id_bidang=p.bidang_id JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Luar' GROUP BY id_bidang ORDER BY jml DESC");
-        $data['dd_bidang'] = DB::select("SELECT bidang, COUNT(id_dinas) jml FROM bidang b JOIN pegawai p ON b.id_bidang=p.bidang_id JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Dalam' GROUP BY id_bidang ORDER BY jml DESC");
-        $data['dl_pegawai'] = DB::select("SELECT nama, COUNT(id_dinas) jml FROM pegawai p JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Luar' GROUP BY id_pegawai ORDER BY jml DESC LIMIT 10");
-        $data['dd_pegawai'] = DB::select("SELECT nama, COUNT(id_dinas) jml FROM pegawai p JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Dalam' GROUP BY id_pegawai ORDER BY jml DESC LIMIT 10");
+        $data['dl_bidang'] = DB::select("SELECT bidang, COUNT(id_dinas) jml FROM bidang b JOIN pegawai p ON b.id_bidang=p.bidang_id JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Luar' AND p.opd_id='$opd_id' GROUP BY id_bidang ORDER BY jml DESC");
+        $data['dd_bidang'] = DB::select("SELECT bidang, COUNT(id_dinas) jml FROM bidang b JOIN pegawai p ON b.id_bidang=p.bidang_id JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Dalam' AND p.opd_id='$opd_id' GROUP BY id_bidang ORDER BY jml DESC");
+        $data['dl_pegawai'] = DB::select("SELECT nama, COUNT(id_dinas) jml FROM pegawai p JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Luar' AND p.opd_id='$opd_id' GROUP BY id_pegawai ORDER BY jml DESC LIMIT 10");
+        $data['dd_pegawai'] = DB::select("SELECT nama, COUNT(id_dinas) jml FROM pegawai p JOIN dinas d ON p.id_pegawai=d.pegawai_id WHERE d.keterangan='Dinas Dalam' AND p.opd_id='$opd_id' GROUP BY id_pegawai ORDER BY jml DESC LIMIT 10");
+        // return $data['dl_bidang']; 
         $data['bulan'] = [
             1 => "Januari",
             2 => "Februari",
@@ -32,10 +35,16 @@ class DashboardController extends Controller
             12 => "Desember"
         ];
 
-        return view('dashboard', $data);
+        if (Auth::user()->role == 'super') {
+            return view('super.dashboard', $data);
+        } else {
+            return view('dashboard', $data);
+        }
     }
 
     public function rekap(){
+        $opd_id = Auth::user()->opd_id;
+
         $bulan = date('m');
         $tahun = date('Y');
         $data['jml_hari'] = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
@@ -59,7 +68,7 @@ class DashboardController extends Controller
 
         $data['bulan_now'] = $bulan;
 
-        $data['dinas'] = DB::select("SELECT id_pegawai, nama, nip FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan ORDER BY id_jabatan");
+        $data['dinas'] = DB::select("SELECT id_pegawai, nama, nip FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE pegawai.opd_id='$opd_id' ORDER BY id_jabatan");
         foreach ($data['dinas'] as $p) {
             // $dinas = DB::select("SELECT keterangan, DAY(tanggal) tgl, DAY(tanggal_pulang) tgl_p FROM dinas WHERE pegawai_id='4'");
             $dinas = DB::select("SELECT keterangan, DAY(tanggal) tgl, DAY(tanggal_pulang) tgl_p FROM dinas WHERE pegawai_id='$p->id_pegawai' AND MONTH(tanggal)='$bulan'");
@@ -91,6 +100,8 @@ class DashboardController extends Controller
     }
 
     public function rekapByBulan($bulan){
+        $opd_id = Auth::user()->opd_id;
+
         $tahun = date('Y');
         $data['jml_hari'] = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
 
@@ -112,7 +123,7 @@ class DashboardController extends Controller
         ];
         $data['bulan_now'] = $bulan;
 
-        $data['dinas'] = DB::select("SELECT id_pegawai, nama, nip FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan ORDER BY id_jabatan");
+        $data['dinas'] = DB::select("SELECT id_pegawai, nama, nip FROM pegawai JOIN jabatan ON pegawai.jabatan_id=jabatan.id_jabatan WHERE pegawai.opd_id='$opd_id' ORDER BY id_jabatan");
         foreach ($data['dinas'] as $p) {
             // $dinas = DB::select("SELECT keterangan, DAY(tanggal) tgl, DAY(tanggal_pulang) tgl_p FROM dinas WHERE pegawai_id='4'");
             $dinas = DB::select("SELECT keterangan, DAY(tanggal) tgl, DAY(tanggal_pulang) tgl_p FROM dinas WHERE pegawai_id='$p->id_pegawai' AND MONTH(tanggal)='$bulan'");
@@ -143,6 +154,8 @@ class DashboardController extends Controller
         return view('rekap.rekap', $data);
     } 
     public function grafikBulanan(){
+        $opd_id = Auth::user()->opd_id;
+
         $data= [
             0,
             0,
@@ -158,7 +171,7 @@ class DashboardController extends Controller
             0
         ];
 
-        $grafik = DB::select("SELECT MONTH(tanggal) bulan, COUNT(id_dinas) jml FROM dinas d GROUP BY MONTH(tanggal) ORDER BY MONTH(tanggal)");
+        $grafik = DB::select("SELECT MONTH(tanggal) bulan, COUNT(id_dinas) jml FROM dinas d WHERE opd_id='$opd_id' GROUP BY MONTH(tanggal) ORDER BY MONTH(tanggal)");
         foreach ($grafik as $g) {
             if(isset($g->jml)){
                 $data[$g->bulan-1]= $g->jml;

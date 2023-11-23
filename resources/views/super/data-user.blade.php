@@ -1,8 +1,24 @@
 @extends('layouts.template')
 @section('content')
 <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
-    <!--begin::Post-->
-    <div class="content col-12" id="kt_content">
+    <div class="content col-12" id="kt_content">     
+        <div class="card mb-8">
+            <!--begin::Datatable-->
+            <div class="card-body pt-0">
+                <div class="fv-row mt-6 bb-4">
+                    <!--begin::Label-->
+                    <label class="required fw-bold fs-6">Pilih OPD</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <select class="form-select" data-control="select2" data-placeholder="Pilih OPD" id="opd" selected="true" required>
+                        <option value="0">Pilih OPD</option>                                
+                        @foreach ($opd as $o) 
+                        <option value="{{$o->id_opd}}">{{$o->singkatan}}</option>                                
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>  
 		<div class="card">
 			<!--begin::Navbar-->
 			<!--begin::Wrapper-->
@@ -24,7 +40,7 @@
 					<!--begin::Toolbar-->
 					<div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
 						<!--begin::Add customer-->
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah" id="btn_tambah">
                             <i class="ki-duotone ki-plus fs-2"></i>
                             Tambah User
                         </button>
@@ -71,6 +87,7 @@
                         <input type="hidden" value="{{ url('/') }}" id="url">
                         <input type="hidden" value="{{ csrf_token() }}" id="token">
                         <input type="text" class="form-control" name="name" placeholder="Name" id="name">
+                        <input type="hidden" class="form-control" name="opd_id" id="opd_id">
                     </div>
                     <div class="mb-10">
                         <label class="form-label">Username</label>
@@ -150,10 +167,12 @@
 </div>
 @endsection
 @section('js')
-<script>    
+<script>   
+    $('#btn_tambah').hide()
     dt = $("#data_table").DataTable({
         "processing": true,
         "serverSide": true,
+        "saveState": true,
         "ajax": "{{ route('user.get') }}",
         "columns": [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
@@ -161,7 +180,6 @@
             {data: 'username', name: 'username'},
             {data: 'singkatan', name: 'singkatan'},
             {data: 'role', name: 'role'},
-
             {
                 data: 'action', 
                 name: 'action', 
@@ -170,6 +188,22 @@
             },
         ]
     });
+    
+    $('#opd').on("change", function(){  
+        let opd_id = $(this).val();
+        $('#opd_id').val(opd_id);
+
+        let urlx = url+"/get-user/byopd/"+opd_id
+        dt.ajax.url(urlx).load();
+
+        if (opd_id != '0'){
+            $('#btn_tambah').show()
+        } else {
+            $('#btn_tambah').hide()
+        }
+    });
+
+    
 
     var handleSearchDatatable = function () {
         const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
@@ -234,32 +268,6 @@
         }   
     });
 
-    $('#email').on("keyup", function(){  
-        $('#notif2').empty()
-
-        var url = $('#url').val();
-        var email = $('#email').val();
-        if(email){
-            clearInterval(changeInterval)
-            changeInterval = setInterval(function() {
-                $.ajax({type: "GET",
-                    url: url+"/ajax/user/cek/"+email,
-                    success:function(result){
-                        if(result){
-                            $('#notif2').empty().append('<span class="badge badge-danger" style="margin-top: 2px">Ups! Email sudah digunakan.</span>')
-                        } else {
-                            $('#notif2').empty().append('<span class="badge badge-success" style="margin-top: 2px">Email Tersedia</span>')
-                        }
-                    },
-                    error:function(result)
-                    {
-                    }
-                });
-                clearInterval(changeInterval)
-            }, 500); 
-        } 
-
-    });
 
     $(document).on('click', '.hapus', function () {
         let id = $(this).data('id')
@@ -308,12 +316,12 @@
         var url = $('#url').val();
         var name = $('#name').val();
         var username = $('#username').val();
-        var email = $('#email').val();
         var password = $('#password').val();
+        var opd_id = $('#opd_id').val();
         var role = $('#role').val();
 
-        if(name == '' || username =='' || email =='' || password =='' || role ==''){
-            Toast.fire({
+        if(name == '' || username =='' || password =='' || role ==''){
+            Swal.fire({
                 icon: 'error',
                 title: 'Ups! ada kolom yang belum terisi :('
             })
@@ -321,13 +329,13 @@
             $.ajax({
                 type : "POST",
                 headers:{"X-CSRF-TOKEN":token},
-                url  : url+"/ajax/user/create/",
+                url  : url+"/ajax/user/create_byopd",
                 dataType : "JSON",
                 data : {
                     name:name,
                     username:username,
-                    email:email,
                     password:password,
+                    opd_id:opd_id,
                     role:role
                     },
                 success: function(data){
@@ -346,9 +354,9 @@
                     );
                 },
                 error: function(data){
-                    Toast.fire({
+                    Swal.fire({
                         icon: 'error',
-                        title: 'Ups! Username / email telah digunakan :('
+                        title: 'Ups! Server error :('
                     })
                 }
             }); 
@@ -366,7 +374,7 @@
         var role = $('#role_u').val();
 
         if(name == '' || username =='' || email =='' || role ==''){
-            Toast.fire({
+            Swal.fire({
                 icon: 'error',
                 title: 'Ups! ada kolom yang belum terisi :('
             })
@@ -401,9 +409,9 @@
                     );
                 },
                 error: function(data){
-                    Toast.fire({
+                    Swal.fire({
                         icon: 'error',
-                        title: 'Ups! username/ email sudah digunakan :('
+                        title: 'Ups! Server error :('
                     })
                 }
             }); 

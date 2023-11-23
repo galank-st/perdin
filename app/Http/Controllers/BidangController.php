@@ -25,7 +25,8 @@ class BidangController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data = Bidang::get();
+            $opd_id = Auth::user()->opd_id;
+            $data = Bidang::where('opd_id','=',$opd_id)->get();
     
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -41,8 +42,10 @@ class BidangController extends Controller
     }
 
     public function create(Request $request){
+        $opd_id = Auth::user()->opd_id;
         $data =  new Bidang();
         $data->bidang = $request->bidang;
+        $data->opd_id = $opd_id;
         $data->save();
         return redirect()->back()->with('success','Data Berhasil disimpan.');
     }
@@ -57,5 +60,11 @@ class BidangController extends Controller
     public function delete($id){
         Bidang::destroy($id);
         return redirect()->back()->with('success','Data Berhasil disimpan.');
+    }
+
+    public function bidang_byopd($opd_id)
+    {
+        $data = Bidang::where('opd_id','=',$opd_id)->get();
+        return response()->json($data, 200);
     }
 }

@@ -38,6 +38,8 @@ Route::get('/grafik-harian/{bulan}', [DashboardController::class, 'grafikHarian'
 
 Route::get('/data-user', [UserController::class, 'index'])->name('user.data');
 Route::get('/get-user', [UserController::class, 'get_user'])->name('user.get');
+Route::get('/get-user/byopd/{opd_id}', [UserController::class, 'get_user_super']);
+
 
 //DINAS LUAR
 Route::get('/dinas-luar', [DinasController::class, 'dinas_luar'])->name('dl');
@@ -75,6 +77,12 @@ Route::post('/pegawai/create', [PegawaiController::class, 'create'])->name('pega
 Route::post('/pegawai/update', [PegawaiController::class, 'update'])->name('pegawai.update');
 Route::get('/ajax/pegawai/del/{id}', [PegawaiController::class, 'delete'])->name('pegawai.delete');
 Route::get('/cek-pegawai/{no_sp}/{keterangan}', [DinasController::class, 'cek_pegawai'])->name('cek_pegawai');
+Route::get('/ajax/pegawai/data/byopd/{opd_id}', [PegawaiController::class, 'data_byopd'])->name('pegawai.data_byopd');
+Route::post('/pegawai/create_byopd', [PegawaiController::class, 'create_byopd'])->name('pegawai.create_byopd');
+Route::get('/pegawai/{opd_id}', [PegawaiController::class, 'index_byopd'])->name('pegawai.byopd');
+
+
+
 
 //BIDANG
 Route::get('/bidang', [BidangController::class, 'index'])->name('bidang');
@@ -82,6 +90,8 @@ Route::post('/bidang/create', [BidangController::class, 'create'])->name('bidang
 Route::post('/bidang/update', [BidangController::class, 'update'])->name('bidang.update');
 Route::get('/ajax/bidang/del/{id}', [BidangController::class, 'delete'])->name('bidang.delete');
 Route::get('/bidang/data', [BidangController::class, 'data'])->name('bidang.data');
+Route::get('/bidang/byopd/{opd_id}', [BidangController::class, 'bidang_byopd'])->name('bidang.byopd');
+
 
 
 //JABATAN
@@ -105,6 +115,7 @@ Route::get('/ajax/dinas-luar/del/{no_sp}', [DinasController::class, 'delete_dl']
 
 //AJAX
 Route::post('/ajax/user/create', [UserController::class, 'create'])->name('user.create');
+Route::post('/ajax/user/create_byopd', [UserController::class, 'create_byopd'])->name('user.create_by_opd');
 Route::get('/ajax/user/cek/{cek}', [UserController::class, 'cek_username'])->name('user.cek');
 Route::post('/ajax/user/delete/', [UserController::class, 'delete'])->name('user.delete');
 
